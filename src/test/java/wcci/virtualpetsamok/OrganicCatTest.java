@@ -1,14 +1,17 @@
 package wcci.virtualpetsamok;
 
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 public class OrganicCatTest
 {
-	private OrganicPet underTestCat = new OrganicCat("Rainbow", "Black & white cat", 100);
+	private VirtualPetShelter shelter = new VirtualPetShelter();
+	private OrganicCat underTestCat = new OrganicCat("Rainbow", "Black & white cat", 100);
 	
 	@Test
 	public void _01_shouldBeEqualToItself() {
@@ -33,5 +36,14 @@ public class OrganicCatTest
 		String other = "definitely not a city";
 		
 		assertFalse(underTestCat.equals(other));
+	}
+	
+	@Test
+	public void catUsingLitterBoxShouldLowerValueOfLitterBox() {
+		int litterBoxCleanValueBeforeCatUse = shelter.getLitterBoxCleanValue();
+		underTestCat.useLitterBox(shelter);
+		int expectedCleanValueOfLitterBoxAfterUse = shelter.getLitterBoxCleanValue();
+		
+		assertThat(expectedCleanValueOfLitterBoxAfterUse, lessThan(litterBoxCleanValueBeforeCatUse));
 	}
 }

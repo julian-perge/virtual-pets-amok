@@ -6,9 +6,9 @@ public abstract class OrganicPet extends VirtualPet
 	{
 		return hunger;
 	}
-	public int getWaste()
+	public int getBladderLevel()
 	{
-		return waste;
+		return bladder;
 	}
 	public int getThirst()
 	{
@@ -20,15 +20,15 @@ public abstract class OrganicPet extends VirtualPet
 	}
 
 	private int hunger = 50;
-	private int waste = 50;
 	private int thirst = 50;
-	private int happiness = 50;
+	private int bladder = 0;
+	private int happiness = 100;
 	
-	public OrganicPet(String name, String description, int health, int hunger, int waste, int thirst, int happiness)
+	public OrganicPet(String name, String description, int health, int hunger, int bladder, int thirst, int happiness)
 	{
 		super(name, description, health);
 		this.hunger = hunger;
-		this.waste = waste;
+		this.bladder = bladder;
 		this.thirst = thirst;
 		this.happiness = happiness;
 	}
@@ -40,5 +40,13 @@ public abstract class OrganicPet extends VirtualPet
 	public int feed()
 	{
 		return hunger += 50;
+	}
+	public int water() {
+		return thirst += 50;
+	}
+	
+	@Override
+	public String toString() {
+		return ""+getHunger() + "\t" + getThirst() + "\t" + getBladderLevel() + "\t" + getHappiness();
 	}
 }

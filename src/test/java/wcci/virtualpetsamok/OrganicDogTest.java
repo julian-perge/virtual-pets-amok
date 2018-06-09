@@ -1,14 +1,27 @@
 package wcci.virtualpetsamok;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 public class OrganicDogTest
 {
+	private VirtualPetShelter shelter = new VirtualPetShelter();
 	private VirtualPet underTestDog = new OrganicDog("Coal", "Miniature dachshund with a bengal-tiger coat", 100);
+	
+	@Test
+	public void walkingOrganicDogShouldIncreaseHappiness()
+	{
+		OrganicPet dogTest = new OrganicDog("Testy", "tasty", 100);
+		int happinessBeforeWalk = dogTest.getHappiness();
+		shelter.walkOneDog((OrganicDog)dogTest);
+		int happinessAfterWalk = dogTest.getHappiness();
+		assertThat(happinessAfterWalk, is(equalTo(happinessBeforeWalk + 25)));
+	}
 	
 	@Test
 	public void _01_shouldBeEqualToItself() {

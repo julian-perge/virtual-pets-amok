@@ -8,51 +8,47 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class VirtualPetShelterTest
-{
+public class VirtualPetShelterTest {
 	VirtualPetShelter vps = new VirtualPetShelter();
 	OrganicPet newOrganicDog = new OrganicDog("OrganicDoggo", "is organic dog", 100);
+	OrganicPet newOrganicDog2 = new OrganicDog("OrganicDoggo2", "is organic dog2", 100);
 	OrganicPet newOrganicCat = new OrganicCat("OrganicCat", "is organic cat", 100);
 	RoboticPet newRobotDog = new RoboticDog("RoboticDog", "is robotic dog", 100);
 	RoboticPet newRobotCat = new RoboticCat("RoboticCat", "is robotic cat", 100);
-	
+
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		vps.pets.put(newOrganicDog.getName(), newOrganicDog);
+		vps.pets.put(newOrganicDog2.getName(), newOrganicDog2);
 		vps.pets.put(newOrganicCat.getName(), newOrganicCat);
 		vps.pets.put(newRobotDog.getName(), newRobotDog);
 		vps.pets.put(newRobotCat.getName(), newRobotCat);
 	}
-	
-	@Test 
-	public void shouldOilAllRoboticPets()
-	{
+
+	@Test
+	public void shouldOilAllRoboticPets() {
 		int totalOilLevelsBeforeOilingAllPets = newRobotCat.getOilLevel() + newRobotDog.getOilLevel();
 		vps.oilAllRoboticPets();
 		int totalOilLevelsAfterOilingPets = newRobotCat.getOilLevel() + newRobotDog.getOilLevel();
 		assertThat(totalOilLevelsAfterOilingPets, is(equalTo(totalOilLevelsBeforeOilingAllPets + 100)));
 	}
-	
+
 	@Test
-	public void shouldReturnAllRoboticPetsInShelter()
-	{
+	public void shouldReturnAllRoboticPetsInShelter() {
 		int expectedAmountOfRoboticPets = 2;
 		int numOfRoboticPets = vps.getRoboticPets().size();
 		assertThat(numOfRoboticPets, is(equalTo(expectedAmountOfRoboticPets)));
 	}
-	
+
 	@Test
-	public void shouldReturnAllOrganicPetsInShelter()
-	{
-		int expectedAmountOfOrganicPets = 2;
+	public void shouldReturnAllOrganicPetsInShelter() {
+		int expectedAmountOfOrganicPets = 3;
 		int numOfRoboticPets = vps.getOrganicPets().size();
 		assertThat(numOfRoboticPets, is(equalTo(expectedAmountOfOrganicPets)));
 	}
-
+	
 	@Test
-	public void shouldBeAbleToAddAPet()
-	{
+	public void shouldBeAbleToAddAPet() {
 		int sizeOfShelterBefore = vps.pets.size(); // 4
 		vps.addPet(new RoboticDog("tim", "2020", 100));
 		int sizeOfShelterAfter = vps.pets.size();
@@ -70,35 +66,47 @@ public class VirtualPetShelterTest
 	}
 
 	@Test
-	public void shouldReturnAllPetsInShelter()
-	{
+	public void shouldReturnAllPetsInShelter() {
 		vps.addPet(newOrganicCat);
 		vps.addPet(newOrganicDog);
-
 		assertTrue(vps.pets.containsValue(newOrganicDog));
 		assertTrue(vps.pets.containsValue(newOrganicCat));
 	}
-	
+
 	@Test
-	public void shouldFeedAllOrganicPetsInShelter()
-	{
+	public void shouldFeedAllOrganicPetsInShelter() {
 		int expectedTotalHungerBeforeFeedingAll = newOrganicCat.getHunger() + newOrganicDog.getHunger();
 		vps.feedAllOrganicPets();
-		int totalHungerAfterFeeding = newOrganicCat.getHunger() + newOrganicDog.getHunger();;
-		
+		int totalHungerAfterFeeding = newOrganicCat.getHunger() + newOrganicDog.getHunger();
 		assertThat(totalHungerAfterFeeding, is(equalTo(expectedTotalHungerBeforeFeedingAll + 100)));
+	}
+
+	@Test
+	public void shouldIncreaseHappinessOfAllOrganicDogWhenWalked() {
+		int happinessOfDogBeforeWalk = newOrganicDog.getHappiness() + newOrganicDog2.getHappiness();
+		vps.walkAllOrganicDogs();
+		int expectedHappinessOfDogAfterWalk = newOrganicDog.getHappiness() + newOrganicDog2.getHappiness();
+		assertThat(expectedHappinessOfDogAfterWalk, is(equalTo(happinessOfDogBeforeWalk + 50)));
 	}
 	
 	@Test
-	public void shouldIncreaseHappinessOfAllOrganicDogWhenWalked()
+	public void shouldToggleLitterBoxNeedsCleanedBoolean()
 	{
-		int happinessOfDogBeforeWalk = newOrganicDog.getHappiness();
-		
-		int expectedHappinessOfDogAfterWalk = newOrganicDog.getHappiness();
-		
-		assertThat(expectedHappinessOfDogAfterWalk, is(equalTo(happinessOfDogBeforeWalk + 1)));
+		boolean litterBoxIsDirty = vps.doesLitterBoxNeedCleaned();
+		litterBoxIsDirty = vps.litterBoxIsDirtyToggle();
+		assertTrue(litterBoxIsDirty);
 	}
 	
-	
+	@Test
+	public void shouldCleanLitterBoxWhenLitterBoxCleanVlaueIsZero()
+	{
+		boolean litterBoxIsDirty = vps.doesLitterBoxNeedCleaned();
+		if (litterBoxIsDirty)
+		{
+			vps.cleanLitterBox();
+		}
+		
+		assertTrue(!litterBoxIsDirty);
+	}
 
 }

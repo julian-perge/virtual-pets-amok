@@ -1,6 +1,6 @@
 package wcci.virtualpetsamok;
 
-public class OrganicCat extends OrganicPet
+public class OrganicCat extends OrganicPet implements UseLitterBox
 {
 	public OrganicCat(String name, String description, int health, int hunger, int waste, int thirst, int happiness)
 	{
@@ -17,4 +17,10 @@ public class OrganicCat extends OrganicPet
 	{
 		return OrganicDog.class.hashCode();
 	}
+
+	@Override
+	public void useLitterBox(VirtualPetShelter shelter) {
+		shelter.useLitterBox();
+	}
+
 }

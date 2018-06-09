@@ -9,12 +9,16 @@ import java.util.Set;
 public class VirtualPetShelter
 {
 	Map<String, VirtualPet> pets = new HashMap<>();
-
-	public Collection<VirtualPet> getPets()
-	{
-		return pets.values();
-	}
-
+	
+	private int shelterLitterBoxWaste = 0; // 5
+	private boolean litterBoxNeedsCleaned = false;
+	
+	/*
+	 * 
+	 * METHODS
+	 * 
+	 */
+	
 	public void addPet(VirtualPet pet)
 	{
 		pets.put(pet.getName(), pet);
@@ -24,7 +28,91 @@ public class VirtualPetShelter
 	{
 		pets.remove(pet.getName(), pet);
 	}
+	
+	public VirtualPet returnSpecificPet(String petToGet)
+	{
+		return pets.get(petToGet);
+	}
+	
+	public int getLitterBoxCleanValue() {
+		return shelterLitterBoxWaste;
+	}
 
+	public boolean doesLitterBoxNeedCleaned() {
+		return litterBoxNeedsCleaned;
+	}
+	
+	public boolean litterBoxIsDirtyToggle()
+	{
+		return litterBoxNeedsCleaned = !litterBoxNeedsCleaned;
+	}
+	
+	public void cleanLitterBox()
+	{
+		shelterLitterBoxWaste = 0;
+		litterBoxNeedsCleaned = litterBoxIsDirtyToggle();
+	}
+	
+	public void useLitterBox()
+	{
+		shelterLitterBoxWaste += 1;
+		if(shelterLitterBoxWaste >= 10 && !litterBoxNeedsCleaned)
+		{
+			litterBoxNeedsCleaned = litterBoxIsDirtyToggle();
+		}
+	}
+	
+	public void walkOneDog(OrganicDog dog)
+	{
+		dog.walk();
+	}
+	
+	public void walkAllOrganicDogs()
+	{
+		for (OrganicPet dog : getOrganicPets())
+		{
+			if(dog instanceof OrganicDog)
+			{
+				((OrganicDog) dog).walk();
+			}
+		}
+	}
+
+	public void feedAllOrganicPets()
+	{
+		for (OrganicPet pet : getOrganicPets())
+		{
+			pet.feed();
+		}
+	}
+	
+	public void waterAllOrganicPets()
+	{
+		for (OrganicPet pet : getOrganicPets())
+		{
+			pet.water();
+		}
+	}
+	
+	public void oilAllRoboticPets()
+	{
+		for (RoboticPet robotPet : getRoboticPets())
+		{
+			robotPet.oilPet();
+		}
+	}
+	
+	/*
+	 * 
+	 * COLLECTIONS
+	 * 
+	 */
+	
+	public Collection<VirtualPet> getPets()
+	{
+		return pets.values();
+	}
+	
 	public Collection<OrganicPet> getOrganicPets()
 	{
 		Set<OrganicPet> organicPets = new HashSet<>();
@@ -51,37 +139,4 @@ public class VirtualPetShelter
 		}
 		return roboPets;
 	}
-
-	public VirtualPet returnSpecificPet(String petToGet)
-	{
-		return pets.get(petToGet);
-	}
-
-	public void feedAllOrganicPets()
-	{
-		for (OrganicPet pet : getOrganicPets())
-		{
-			pet.feed();
-		}
-	}
-	
-	public void walkAllOrganicDogs()
-	{
-		for (OrganicPet pet : getOrganicPets())
-		{
-			if(pet instanceof OrganicDog)
-			{
-				((OrganicDog) pet).walk();
-			}
-		}
-	}
-
-	public void oilAllRoboticPets()
-	{
-		for (RoboticPet robotPet : getRoboticPets())
-		{
-			robotPet.oilPet();
-		}
-	}
-
 }
