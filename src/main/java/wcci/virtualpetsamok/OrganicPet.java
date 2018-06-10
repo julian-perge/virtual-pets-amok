@@ -10,27 +10,36 @@ public abstract class OrganicPet extends VirtualPet
 	{
 		return bladder;
 	}
-	public int getThirst()
+	public int getFun()
 	{
-		return thirst;
+		return fun;
 	}
 	public int getHappiness()
 	{
 		return happiness;
 	}
-
-	private int hunger = 50;
-	private int thirst = 50;
-	private int bladder = 0;
-	private int happiness = 100;
 	
-	public OrganicPet(String name, String description, int health, int hunger, int bladder, int thirst, int happiness)
+	public int getEnergy()
+	{
+		return energy;
+	}
+
+	private int MAX_ATTRIBUTE_VALUE = 100;
+
+	private int energy = 50;
+	private int hunger = MAX_ATTRIBUTE_VALUE;
+	private int fun = MAX_ATTRIBUTE_VALUE;
+	private int bladder = 0;
+	protected int happiness = MAX_ATTRIBUTE_VALUE;
+	
+	public OrganicPet(String name, String description, int health, int hunger, int bladder, int fun, int energy, int happiness)
 	{
 		super(name, description, health);
-		this.hunger = hunger;
 		this.bladder = bladder;
-		this.thirst = thirst;
+		this.energy = energy;
+		this.fun = fun;
 		this.happiness = happiness;
+		this.hunger = hunger;
 	}
 	public OrganicPet(String name, String description, int health)
 	{
@@ -41,12 +50,15 @@ public abstract class OrganicPet extends VirtualPet
 	{
 		return hunger += 50;
 	}
-	public int water() {
-		return thirst += 50;
+	
+	public void play()
+	{
+		this.fun += 20;
+		this.energy -= 20;
 	}
 	
 	@Override
 	public String toString() {
-		return ""+getHunger() + "\t" + getThirst() + "\t" + getBladderLevel() + "\t" + getHappiness();
+		return super.toString() + "|" + getHunger() + "\t|" + getFun() + "\t|" + getBladderLevel() + "\t|" + getHappiness();
 	}
 }

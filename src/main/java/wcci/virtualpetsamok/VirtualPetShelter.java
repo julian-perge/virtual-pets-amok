@@ -8,7 +8,8 @@ import java.util.Set;
 
 public class VirtualPetShelter
 {
-	Map<String, VirtualPet> pets = new HashMap<>();
+	public Map<String, VirtualPet> pets = new HashMap<>();
+	public Map<VirtualPet, CageForDog> cagesForDogs = new HashMap<>();
 	
 	private int shelterLitterBoxWaste = 0; // 5
 	private boolean litterBoxNeedsCleaned = false;
@@ -34,6 +35,39 @@ public class VirtualPetShelter
 		return pets.get(petToGet);
 	}
 	
+	// ROBOTIC PET SPECIFIC
+	
+	public void oilAllRoboticPets()
+	{
+		for (RoboticPet robotPet : getRoboticPets())
+		{
+			robotPet.oilPet();
+		}
+	}
+	
+	// ORGANIC PET SPECIFIC
+	
+	public void playWithAll()
+	{
+		for (VirtualPet pet : getAllPets())
+		{
+			if (pet instanceof OrganicPet)
+			{
+				((OrganicPet)pet).play();	
+			}
+		}
+	}
+	
+	public void feedAllOrganicPets()
+	{
+		for (OrganicPet pet : getOrganicPets())
+		{
+			pet.feed();
+		}
+	}
+	
+	// CAT SPECIFIC
+	
 	public int getLitterBoxCleanValue() {
 		return shelterLitterBoxWaste;
 	}
@@ -53,7 +87,7 @@ public class VirtualPetShelter
 		litterBoxNeedsCleaned = litterBoxIsDirtyToggle();
 	}
 	
-	public void useLitterBox()
+	public void catUsesLitterBox()
 	{
 		shelterLitterBoxWaste += 1;
 		if(shelterLitterBoxWaste >= 10 && !litterBoxNeedsCleaned)
@@ -61,6 +95,8 @@ public class VirtualPetShelter
 			litterBoxNeedsCleaned = litterBoxIsDirtyToggle();
 		}
 	}
+	
+	// DOG SPECIFIC
 	
 	public void walkOneDog(OrganicDog dog)
 	{
@@ -77,28 +113,26 @@ public class VirtualPetShelter
 			}
 		}
 	}
-
-	public void feedAllOrganicPets()
+	
+	public void addDogToNewCage(OrganicDog dog)
 	{
-		for (OrganicPet pet : getOrganicPets())
-		{
-			pet.feed();
-		}
+		cagesForDogs.put(dog, new CageForDog());
 	}
 	
-	public void waterAllOrganicPets()
+	public int getNumberOfCages()
 	{
-		for (OrganicPet pet : getOrganicPets())
-		{
-			pet.water();
-		}
+		return cagesForDogs.size();
+	} 
+	
+	public void cleanCage(OrganicDog dog)
+	{
+		cagesForDogs.get(dog).cleanCage();
 	}
 	
-	public void oilAllRoboticPets()
+	public void cleanAllDogCages()
 	{
-		for (RoboticPet robotPet : getRoboticPets())
-		{
-			robotPet.oilPet();
+		for (CageForDog cage : cagesForDogs.values()) {
+			cage.cleanCage();
 		}
 	}
 	
@@ -108,7 +142,7 @@ public class VirtualPetShelter
 	 * 
 	 */
 	
-	public Collection<VirtualPet> getPets()
+	public Collection<VirtualPet> getAllPets()
 	{
 		return pets.values();
 	}
@@ -139,4 +173,45 @@ public class VirtualPetShelter
 		}
 		return roboPets;
 	}
+	
+	// TICK
+	
+//	public void tick(int test)
+//	{
+//		for (VirtualPet pet : getAllPets())
+//		{
+//			int petFun = pet.getFun();
+//			int petEnergy = pet.getEnergy();
+//			int petHunger = pet.getHunger();
+//			
+//			switch (test)
+//			{
+//				// is fed
+//				case 1:
+//					petHunger -= 5;
+//					petEnergy += 5;
+//					break;
+//				// is played with
+//				case 2:
+//					petHunger -= 5;
+//					petEnergy -= 5;
+//					break;
+//				// has slept
+//				case 3:
+//					petHunger -= 5;
+//					petFun-= 5;
+//					break;
+//				// does nothing
+//				case 0:
+//				case 4:
+//				case 5:
+//					petHunger -= 5;
+//					petFun -= 5;
+//					petEnergy -= 5;
+//					break;
+//				default:
+//					break;
+//			}
+//		}
+//	}
 }

@@ -16,9 +16,9 @@ public class OrganicDogTest
 	@Test
 	public void walkingOrganicDogShouldIncreaseHappiness()
 	{
-		OrganicPet dogTest = new OrganicDog("Testy", "tasty", 100);
+		OrganicDog dogTest = new OrganicDog("Testy", "tasty", 100);
 		int happinessBeforeWalk = dogTest.getHappiness();
-		shelter.walkOneDog((OrganicDog)dogTest);
+		shelter.walkOneDog(dogTest);
 		int happinessAfterWalk = dogTest.getHappiness();
 		assertThat(happinessAfterWalk, is(equalTo(happinessBeforeWalk + 25)));
 	}

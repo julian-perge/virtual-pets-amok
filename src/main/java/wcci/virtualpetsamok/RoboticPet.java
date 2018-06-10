@@ -31,4 +31,10 @@ public abstract class RoboticPet extends VirtualPet
 	{
 		return RoboticPet.class.hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString() + "\t \t \t \t|" + getOilLevel();
+	}
 }

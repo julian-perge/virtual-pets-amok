@@ -30,6 +30,6 @@ public abstract class VirtualPet
 	@Override
 	public String toString()
 	{
-		return ""+name + description + health;
+		return ""+name + "\t|" + health + "\t";
 	}
 }

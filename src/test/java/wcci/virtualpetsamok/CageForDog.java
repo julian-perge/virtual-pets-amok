@@ -1,8 +1,22 @@
 package wcci.virtualpetsamok;
 
-public abstract class CageForDog
+
+public class CageForDog
 {
-	private int cleanliness = 5;
+	private final int MAX_CLEANLINESS_LEVEL = 10;
+	private int cleanliness = 5; //10 means super clean
+
+	public int getCleanlinessOfCage() {
+		return cleanliness;
+	}
 	
-	
+	public int cleanCage()
+	{
+		return cleanliness = MAX_CLEANLINESS_LEVEL;
+	}
+
+	public CageForDog() {
+		super();
+	}
+
 }

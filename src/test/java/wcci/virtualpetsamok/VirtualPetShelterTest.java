@@ -1,6 +1,7 @@
 package wcci.virtualpetsamok;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -10,11 +11,11 @@ import org.junit.Test;
 
 public class VirtualPetShelterTest {
 	VirtualPetShelter vps = new VirtualPetShelter();
-	OrganicPet newOrganicDog = new OrganicDog("OrganicDoggo", "is organic dog", 100);
-	OrganicPet newOrganicDog2 = new OrganicDog("OrganicDoggo2", "is organic dog2", 100);
-	OrganicPet newOrganicCat = new OrganicCat("OrganicCat", "is organic cat", 100);
-	RoboticPet newRobotDog = new RoboticDog("RoboticDog", "is robotic dog", 100);
-	RoboticPet newRobotCat = new RoboticCat("RoboticCat", "is robotic cat", 100);
+	OrganicDog newOrganicDog = new OrganicDog("OrganicDoggo", "is organic dog", 100);
+	OrganicDog newOrganicDog2 = new OrganicDog("OrganicDoggo2", "is organic dog2", 100);
+	OrganicCat newOrganicCat = new OrganicCat("OrganicCat", "is organic cat", 100);
+	RoboticDog newRobotDog = new RoboticDog("RoboticDog", "is robotic dog", 100);
+	RoboticCat newRobotCat = new RoboticCat("RoboticCat", "is robotic cat", 100);
 
 	@Before
 	public void setUp() {
@@ -107,6 +108,29 @@ public class VirtualPetShelterTest {
 		}
 		
 		assertTrue(!litterBoxIsDirty);
+	}
+	
+	@Test
+	public void shouldCleanCageOfSpecificDog()
+	{
+		vps.addDogToNewCage(newOrganicDog);
+		int cleanlinessOfCageBeforeCleaning = vps.cagesForDogs.get(newOrganicDog).getCleanlinessOfCage();  
+		vps.cleanCage(newOrganicDog);
+		int cleanlinessOfCageAfterCleaning = vps.cagesForDogs.get(newOrganicDog).getCleanlinessOfCage();
+		
+		assertThat(cleanlinessOfCageAfterCleaning, greaterThan(cleanlinessOfCageBeforeCleaning) );
+	}
+	
+	@Test
+	public void shouldCleanAllCagesOfOrganicDogs()
+	{
+		vps.addDogToNewCage(newOrganicDog);
+		vps.addDogToNewCage(newOrganicDog2);
+		int cleanlinessOfCagesBeforeCleaning = 10;
+		vps.cleanAllDogCages();
+		int cleanlinessOfCagesAfterCleaning = vps.cagesForDogs.get(newOrganicDog).getCleanlinessOfCage() + vps.cagesForDogs.get(newOrganicDog2).getCleanlinessOfCage();
+		
+		assertThat(cleanlinessOfCagesAfterCleaning, greaterThan(cleanlinessOfCagesBeforeCleaning) );
 	}
 
 }
