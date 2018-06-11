@@ -23,6 +23,10 @@ public class VirtualPetShelter
 	
 	public void addPet(VirtualPet pet)
 	{
+		if(pet instanceof OrganicDog)
+		{
+			addDogToNewCage((OrganicDog) pet);
+		}
 		pets.put(pet.getName(), pet);
 	}
 

@@ -29,7 +29,7 @@ public abstract class RoboticPet extends VirtualPet
 	@Override
 	public void tick()
 	{
-		this.oilLevel -= 20;
+		this.oilLevel -= 10;
 	}
 	
 	@Override

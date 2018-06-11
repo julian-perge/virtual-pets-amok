@@ -19,7 +19,7 @@ public class CageTest
 		int numberOfCagesAfterAssigningDogToNewCage = shelter.cagesForDogs.size();
 		assertThat(numberOfCagesAfterAssigningDogToNewCage, is(equalTo(numberOfCagesBeforeAssigningDogToNewCage + 1)));
 	}
-	
+
 	@Test
 	public void shouldBeAbleToGetSpecificWasteLevelOfDogCage()
 	{
