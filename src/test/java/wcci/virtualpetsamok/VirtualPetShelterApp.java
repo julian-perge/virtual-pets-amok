@@ -44,6 +44,12 @@ public class VirtualPetShelterApp {
 
 		while (isOnShift) {
 			switch (userMenuChoice) {
+			case "-1":
+				printAllPetsInShelter(vps);
+				vps.shelterTick();
+				vps.shelterTick();
+				printAllPetsInShelter(vps);
+				break;
 			case "0":
 				System.out.println("What list of pets would you like to print?\n" + "1. Print all pets in shelter\n"
 						+ "2. Print all organic pets\n" + "3. Print all robotic pets");
@@ -173,13 +179,8 @@ public class VirtualPetShelterApp {
 				vps.addPet(petToAdmit);
 				System.out.println("[" + petToAdmitName + "] " + petToAdmitsDesc + " has joined the shelter crew!");
 				break;
-			case "6":
-				vps.shelterTick();
-				break;
-			case "7":
-				break;
 			case "8":
-
+				vps.shelterTick();
 				break;
 			case "9":
 				System.out.println("Shift is over. See you tomorrow!");

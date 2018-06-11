@@ -9,8 +9,7 @@ public class OrganicDog extends OrganicPet implements Walkable
 	
 	public BigDecimal calculateChanceToSoilCage()
 	{
-		// -100 + 0 = -100, |-100| + 0 = 100
-		chanceToSoilCage = new BigDecimal((1/500) * Math.pow(bladder, 2.00) + 5);
+		chanceToSoilCage = new BigDecimal((1/500) * Math.pow(getBladderLevel(), 2.00) + 5);
 		return chanceToSoilCage;
 	}
 	
@@ -44,6 +43,6 @@ public class OrganicDog extends OrganicPet implements Walkable
 	@Override
 	public int walk() {
 		this.chanceToSoilCage = chanceToSoilCage.subtract(new BigDecimal(10));
-		return this.happiness += 25;
+		return super.walk();
 	}
 }

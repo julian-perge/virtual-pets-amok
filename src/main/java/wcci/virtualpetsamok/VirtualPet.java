@@ -29,6 +29,7 @@ public abstract class VirtualPet
 	
 	public void tick()
 	{
+		this.health -= 2;
 	}
 	
 	@Override

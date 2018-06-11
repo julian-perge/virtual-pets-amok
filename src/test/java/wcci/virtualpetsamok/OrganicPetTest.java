@@ -10,6 +10,9 @@ import org.junit.Test;
 
 public class OrganicPetTest
 {
+	
+	private VirtualPetShelter vps = new VirtualPetShelter();
+	
 	@Test(expected = InstantiationException.class)
 	public void shouldNotBeAbleToInstantiateAnOrganicVirtualPet() throws Exception
 	{
@@ -19,13 +22,13 @@ public class OrganicPetTest
 	@Test
 	public void Negative100BladderInOrganicPetShouldLowerHappinessLevel()
 	{
-		OrganicPet dogTest = new OrganicDog("tim", "hambone", 100);
-		int happinessBeforeBladderSet = dogTest.getHappiness();
-//		dogTest.setBladder(-100);
-		dogTest.tick();
-		int expectedDogHappy = dogTest.getHappiness();
+		OrganicDog dogTest = new OrganicDog("tim", "hambone", 100);
+		int happinessBeforeBladderSet = dogTest.getBladderLevel();
+		vps.shelterTick();
+//		dogTest.tick();
+		int expectedDogHappy = dogTest.getBladderLevel();
 		
-		assertThat(happinessBeforeBladderSet, lessThan(expectedDogHappy));
+		assertThat(expectedDogHappy, lessThan(happinessBeforeBladderSet));
 		
 	}
 }

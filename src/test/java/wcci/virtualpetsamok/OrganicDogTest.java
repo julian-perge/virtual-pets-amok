@@ -20,12 +20,13 @@ public class OrganicDogTest
 	{
 		OrganicDog dogTest = new OrganicDog("Testy", "tasty", 100);
 		int happinessBeforeWalk = dogTest.getHappiness();
+		
 		BigDecimal chanceToSoilBeforeWalk = dogTest.getChanceToSoilCage();
-		
 		shelter.walkOneDog(dogTest);
-		
 		BigDecimal chanceToSoilAfterWalk = dogTest.getChanceToSoilCage();
+		
 		int happinessAfterWalk = dogTest.getHappiness();
+		
 		assertThat(happinessAfterWalk, is(equalTo(happinessBeforeWalk + 25)));
 		assertThat(chanceToSoilAfterWalk, lessThan(chanceToSoilBeforeWalk));
 	}
