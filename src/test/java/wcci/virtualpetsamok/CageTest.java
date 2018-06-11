@@ -10,7 +10,6 @@ public class CageTest
 {
 	private VirtualPetShelter shelter = new VirtualPetShelter();
 	private OrganicDog dogTest = new OrganicDog("Test", "likes testing", 100);
-	private OrganicDog dogTestTwo = new OrganicDog("Test", "likes testing", 100);
 	
 	@Test
 	public void shouldBeAbleToAssignNewCageToShelterDog()
@@ -22,15 +21,25 @@ public class CageTest
 	}
 	
 	@Test
-	public void shouldBeAbleToGetSpecificCleanlinessOfDogCage()
+	public void shouldBeAbleToGetSpecificWasteLevelOfDogCage()
 	{
 		shelter.addDogToNewCage(dogTest);
-		shelter.addDogToNewCage(dogTestTwo);
-		int expectedTotalCleanlinessOfCages = 0;
-		int actualTotalCleanlinessOfCages = 0;
-		for (CageForDog cage : shelter.cagesForDogs.values()) {
-			expectedTotalCleanlinessOfCages += cage.getCleanlinessOfCage();
+		int expectedTotalCleanlinessOfCages = 2;
+		int actualTotalCleanlinessOfCages = shelter.cagesForDogs.get(dogTest).getWasteLevelOfCage();;
+		
+		assertThat(actualTotalCleanlinessOfCages, is(equalTo(expectedTotalCleanlinessOfCages)));
+	}
+	
+	@Test
+	public void tickMethodForCageShouldStopAddingWasteWhenWasteIsMaxLevel()
+	{
+		shelter.addDogToNewCage(dogTest);
+		CageForDog cage =  shelter.cagesForDogs.get(dogTest);
+		for (int i = 0; i < 8; i++) {
+			cage.tick();
 		}
-		assertThat(expectedTotalCleanlinessOfCages, is(equalTo(actualTotalCleanlinessOfCages)));
+		int wasteLevelOfCage = cage.getWasteLevelOfCage();
+		int expectedWasteLevel = 10;
+		assertThat(wasteLevelOfCage, is(equalTo(expectedWasteLevel)));
 	}
 }

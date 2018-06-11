@@ -27,6 +27,12 @@ public abstract class RoboticPet extends VirtualPet
 	}
 	
 	@Override
+	public void tick()
+	{
+		this.oilLevel -= 20;
+	}
+	
+	@Override
 	public int hashCode()
 	{
 		return RoboticPet.class.hashCode();
@@ -34,7 +40,6 @@ public abstract class RoboticPet extends VirtualPet
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString() + "\t \t \t \t|" + getOilLevel();
+		return super.toString() + "|" + getOilLevel();
 	}
 }

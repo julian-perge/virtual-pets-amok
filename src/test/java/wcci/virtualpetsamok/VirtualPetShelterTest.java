@@ -1,8 +1,6 @@
 package wcci.virtualpetsamok;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -79,7 +77,7 @@ public class VirtualPetShelterTest {
 		int expectedTotalHungerBeforeFeedingAll = newOrganicCat.getHunger() + newOrganicDog.getHunger();
 		vps.feedAllOrganicPets();
 		int totalHungerAfterFeeding = newOrganicCat.getHunger() + newOrganicDog.getHunger();
-		assertThat(totalHungerAfterFeeding, is(equalTo(expectedTotalHungerBeforeFeedingAll + 100)));
+		assertThat(totalHungerAfterFeeding, is(equalTo(expectedTotalHungerBeforeFeedingAll + 80)));
 	}
 
 	@Test
@@ -93,7 +91,7 @@ public class VirtualPetShelterTest {
 	@Test
 	public void shouldToggleLitterBoxNeedsCleanedBoolean()
 	{
-		boolean litterBoxIsDirty = vps.doesLitterBoxNeedCleaned();
+		boolean litterBoxIsDirty = vps.isLitterBoxClean();
 		litterBoxIsDirty = vps.litterBoxIsDirtyToggle();
 		assertTrue(litterBoxIsDirty);
 	}
@@ -101,7 +99,7 @@ public class VirtualPetShelterTest {
 	@Test
 	public void shouldCleanLitterBoxWhenLitterBoxCleanVlaueIsZero()
 	{
-		boolean litterBoxIsDirty = vps.doesLitterBoxNeedCleaned();
+		boolean litterBoxIsDirty = vps.isLitterBoxClean();
 		if (litterBoxIsDirty)
 		{
 			vps.cleanLitterBox();
@@ -114,11 +112,11 @@ public class VirtualPetShelterTest {
 	public void shouldCleanCageOfSpecificDog()
 	{
 		vps.addDogToNewCage(newOrganicDog);
-		int cleanlinessOfCageBeforeCleaning = vps.cagesForDogs.get(newOrganicDog).getCleanlinessOfCage();  
+		int cleanlinessOfCageBeforeCleaning = vps.cagesForDogs.get(newOrganicDog).getWasteLevelOfCage();  
 		vps.cleanCage(newOrganicDog);
-		int cleanlinessOfCageAfterCleaning = vps.cagesForDogs.get(newOrganicDog).getCleanlinessOfCage();
+		int cleanlinessOfCageAfterCleaning = vps.cagesForDogs.get(newOrganicDog).getWasteLevelOfCage();
 		
-		assertThat(cleanlinessOfCageAfterCleaning, greaterThan(cleanlinessOfCageBeforeCleaning) );
+		assertThat(cleanlinessOfCageAfterCleaning, lessThan(cleanlinessOfCageBeforeCleaning) );
 	}
 	
 	@Test
@@ -126,11 +124,14 @@ public class VirtualPetShelterTest {
 	{
 		vps.addDogToNewCage(newOrganicDog);
 		vps.addDogToNewCage(newOrganicDog2);
-		int cleanlinessOfCagesBeforeCleaning = 10;
-		vps.cleanAllDogCages();
-		int cleanlinessOfCagesAfterCleaning = vps.cagesForDogs.get(newOrganicDog).getCleanlinessOfCage() + vps.cagesForDogs.get(newOrganicDog2).getCleanlinessOfCage();
 		
-		assertThat(cleanlinessOfCagesAfterCleaning, greaterThan(cleanlinessOfCagesBeforeCleaning) );
+		int wasteLevelOfCagesBeforeCleaning = vps.cagesForDogs.get(newOrganicDog).getWasteLevelOfCage() 
+				+ vps.cagesForDogs.get(newOrganicDog2).getWasteLevelOfCage();
+		
+		vps.cleanAllDogCages();
+		int wasteLevelOfCagesAfterCleaning = wasteLevelOfCagesBeforeCleaning - 10;
+		
+		assertThat(wasteLevelOfCagesAfterCleaning, lessThan(wasteLevelOfCagesBeforeCleaning) );
 	}
 
 }

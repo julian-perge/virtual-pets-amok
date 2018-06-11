@@ -11,8 +11,9 @@ public class VirtualPetShelter
 	public Map<String, VirtualPet> pets = new HashMap<>();
 	public Map<VirtualPet, CageForDog> cagesForDogs = new HashMap<>();
 	
-	private int shelterLitterBoxWaste = 0; // 5
-	private boolean litterBoxNeedsCleaned = false;
+	private final int MAX_LITTERBOX_WASTE = 10;
+	private int shelterLitterBoxWaste = 0;
+	private boolean isLitterBoxClean = false;
 	
 	/*
 	 * 
@@ -45,6 +46,11 @@ public class VirtualPetShelter
 		}
 	}
 	
+	public void disassembleRobotPet(RoboticPet pet)
+	{
+		pets.remove(pet.getName());
+	}
+	
 	// ORGANIC PET SPECIFIC
 	
 	public void playWithAll()
@@ -68,31 +74,31 @@ public class VirtualPetShelter
 	
 	// CAT SPECIFIC
 	
-	public int getLitterBoxCleanValue() {
+	public int getLitterBoxWasteValue() {
 		return shelterLitterBoxWaste;
 	}
 
-	public boolean doesLitterBoxNeedCleaned() {
-		return litterBoxNeedsCleaned;
+	public boolean isLitterBoxClean() {
+		return isLitterBoxClean;
 	}
 	
 	public boolean litterBoxIsDirtyToggle()
 	{
-		return litterBoxNeedsCleaned = !litterBoxNeedsCleaned;
+		return isLitterBoxClean = !isLitterBoxClean;
 	}
 	
 	public void cleanLitterBox()
 	{
 		shelterLitterBoxWaste = 0;
-		litterBoxNeedsCleaned = litterBoxIsDirtyToggle();
+		isLitterBoxClean = litterBoxIsDirtyToggle();
 	}
 	
 	public void catUsesLitterBox()
 	{
 		shelterLitterBoxWaste += 1;
-		if(shelterLitterBoxWaste >= 10 && !litterBoxNeedsCleaned)
+		if(shelterLitterBoxWaste == MAX_LITTERBOX_WASTE && !isLitterBoxClean)
 		{
-			litterBoxNeedsCleaned = litterBoxIsDirtyToggle();
+			isLitterBoxClean = litterBoxIsDirtyToggle();
 		}
 	}
 	
@@ -114,9 +120,16 @@ public class VirtualPetShelter
 		}
 	}
 	
+	public void cleanAllDogCages()
+	{
+		for (CageForDog cage : cagesForDogs.values()) {
+			cage.cleanCage();
+		}
+	}
+	
 	public void addDogToNewCage(OrganicDog dog)
 	{
-		cagesForDogs.put(dog, new CageForDog());
+		cagesForDogs.put(dog, new CageForDog(dog.getName()));
 	}
 	
 	public int getNumberOfCages()
@@ -127,13 +140,6 @@ public class VirtualPetShelter
 	public void cleanCage(OrganicDog dog)
 	{
 		cagesForDogs.get(dog).cleanCage();
-	}
-	
-	public void cleanAllDogCages()
-	{
-		for (CageForDog cage : cagesForDogs.values()) {
-			cage.cleanCage();
-		}
 	}
 	
 	/*
@@ -176,42 +182,15 @@ public class VirtualPetShelter
 	
 	// TICK
 	
-//	public void tick(int test)
-//	{
-//		for (VirtualPet pet : getAllPets())
-//		{
-//			int petFun = pet.getFun();
-//			int petEnergy = pet.getEnergy();
-//			int petHunger = pet.getHunger();
-//			
-//			switch (test)
-//			{
-//				// is fed
-//				case 1:
-//					petHunger -= 5;
-//					petEnergy += 5;
-//					break;
-//				// is played with
-//				case 2:
-//					petHunger -= 5;
-//					petEnergy -= 5;
-//					break;
-//				// has slept
-//				case 3:
-//					petHunger -= 5;
-//					petFun-= 5;
-//					break;
-//				// does nothing
-//				case 0:
-//				case 4:
-//				case 5:
-//					petHunger -= 5;
-//					petFun -= 5;
-//					petEnergy -= 5;
-//					break;
-//				default:
-//					break;
-//			}
-//		}
-//	}
+	public void shelterTick()
+	{
+		for (CageForDog cage : cagesForDogs.values()) {
+			cage.tick();
+		}
+		
+		for (VirtualPet pet : getAllPets())
+		{
+			pet.tick();
+		}
+	}
 }

@@ -4,7 +4,7 @@ public abstract class VirtualPet
 {
 	private String name = "";
 	private String description = "";
-	private int health = 50;
+	private int health = 100;
 	
 	public VirtualPet(String name, String description, int health)
 	{
@@ -27,9 +27,13 @@ public abstract class VirtualPet
 		return health;
 	}
 	
+	public void tick()
+	{
+	}
+	
 	@Override
 	public String toString()
 	{
-		return ""+name + "\t|" + health + "\t";
+		return name + "\t|" + health + "\t";
 	}
 }

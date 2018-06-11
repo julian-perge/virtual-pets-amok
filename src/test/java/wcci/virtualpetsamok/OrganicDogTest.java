@@ -6,21 +6,37 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
+
 import org.junit.Test;
 
 public class OrganicDogTest
 {
 	private VirtualPetShelter shelter = new VirtualPetShelter();
-	private VirtualPet underTestDog = new OrganicDog("Coal", "Miniature dachshund with a bengal-tiger coat", 100);
+	private OrganicDog underTestDog = new OrganicDog("Coal", "Miniature dachshund with a bengal-tiger coat", 100);
 	
 	@Test
-	public void walkingOrganicDogShouldIncreaseHappiness()
+	public void walkingOrganicDogShouldIncreaseHappinessAndDecreaseChanceToSoilCage()
 	{
 		OrganicDog dogTest = new OrganicDog("Testy", "tasty", 100);
 		int happinessBeforeWalk = dogTest.getHappiness();
+		BigDecimal chanceToSoilBeforeWalk = dogTest.getChanceToSoilCage();
+		
 		shelter.walkOneDog(dogTest);
+		
+		BigDecimal chanceToSoilAfterWalk = dogTest.getChanceToSoilCage();
 		int happinessAfterWalk = dogTest.getHappiness();
 		assertThat(happinessAfterWalk, is(equalTo(happinessBeforeWalk + 25)));
+		assertThat(chanceToSoilAfterWalk, lessThan(chanceToSoilBeforeWalk));
+	}
+	
+	@Test
+	public void chanceToSoilShouldIncreaseWhenTickIsCalled()
+	{
+		BigDecimal chanceToSoilBefore = underTestDog.getChanceToSoilCage();
+		underTestDog.tick();
+		BigDecimal chanceToSoilAfter = underTestDog.getChanceToSoilCage();
+		assertThat(chanceToSoilAfter, greaterThan(chanceToSoilBefore));
 	}
 	
 	@Test

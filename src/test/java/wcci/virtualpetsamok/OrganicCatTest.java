@@ -1,6 +1,6 @@
 package wcci.virtualpetsamok;
 
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -39,11 +39,11 @@ public class OrganicCatTest
 	}
 	
 	@Test
-	public void catUsingLitterBoxShouldLowerValueOfLitterBox() {
-		int litterBoxCleanValueBeforeCatUse = shelter.getLitterBoxCleanValue();
-		underTestCat.useLitterBox(shelter);
-		int expectedCleanValueOfLitterBoxAfterUse = shelter.getLitterBoxCleanValue();
+	public void catUsingLitterBoxShouldIncreaseLitterBoxWaste() {
+		int litterBoxWasteValueBeforeCatUse = shelter.getLitterBoxWasteValue();
+		shelter.catUsesLitterBox();
+		int expectedWasteValueOfLitterBoxAfterUse = shelter.getLitterBoxWasteValue();
 		
-		assertThat(expectedCleanValueOfLitterBoxAfterUse, lessThan(litterBoxCleanValueBeforeCatUse));
+		assertThat(expectedWasteValueOfLitterBoxAfterUse, greaterThan(litterBoxWasteValueBeforeCatUse));
 	}
 }
